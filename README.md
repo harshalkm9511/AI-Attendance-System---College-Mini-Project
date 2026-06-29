@@ -7,8 +7,8 @@ A Flask-based AI attendance management system that supports teacher login, stude
 - Backend: Python, Flask
 - Frontend: Flask templates, HTML, CSS
 - Database: SQLite
-- Recognition: OpenCV, optional DeepFace/FaceNet embeddings, cosine similarity
-- Storage: Local filesystem for uploaded/student/session images
+- Recognition: OpenCV with an optional DeepFace fallback when available
+- Storage: Filesystem-backed SQLite and image storage
 
 ## Main Features
 
@@ -60,21 +60,29 @@ python run.py
 http://127.0.0.1:5000
 ```
 
+## Deployment
+
+This repository is configured for Render deployment via `render.yaml`.
+
+- Web start command: `gunicorn --workers 1 --threads 4 --timeout 120 run:app`
+- Persistent storage: mounted at `/var/data`
+- Flask entrypoint: `run:app`
+- Python version: `3.12.7`
+- Required environment variables:
+  - `SECRET_KEY`
+  - `DEFAULT_TENANT_NAME`
+  - `DEFAULT_TENANT_CODE`
+  - `DEFAULT_ADMIN_USERNAME`
+  - `DEFAULT_ADMIN_PASSWORD`
+  - `DATA_DIR`
+  - `DATABASE_PATH`
+  - `STORAGE_DIR`
+
 ## Default Behavior
 
 On first startup, the application initializes the SQLite database automatically and seeds a default tenant/admin user from configuration defaults.
 
 ## Notes
 
-- This repository contains only the current Flask-based attendance platform.
-- Older prototype files are intentionally excluded from the GitHub upload.
-
-
-
-cd "C:\Users\Lenovo\OneDrive\Desktop\Coding\projects\attendence system\frontend"
->> npm install
->> npm run dev
-
- cd "C:\Users\Lenovo\OneDrive\Desktop\Coding\projects\attendence system\backend"
->> .\venv\Scripts\Activate.ps1
->> uvicorn main:app --reload
+- The old Streamlit prototype is intentionally ignored for deployment.
+- The Flask app stores uploaded images and the SQLite database on the configured filesystem path, so a persistent disk is required in production.

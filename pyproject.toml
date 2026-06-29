@@ -1,2 +1,26 @@
-[tool.vercel]
-entrypoint = "run:app"
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-attendance-system"
+version = "0.1.0"
+description = "Flask attendance platform for student enrollment and attendance review."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "Flask==3.0.3",
+    "gunicorn==22.0.0",
+    "numpy==1.26.4",
+    "opencv-python-headless==4.10.0.84",
+    "pandas==2.2.3",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["attendance_platform*"]
+
+[tool.setuptools.package-data]
+attendance_platform = ["templates/*.html", "static/*.css"]
